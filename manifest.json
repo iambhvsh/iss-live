@@ -1,0 +1,38 @@
+{
+"short_name": "ISS Tracker",
+"dir": "auto",
+"name": "ISS Tracker",
+"background_color": "#ffffff",
+"theme_color": "#ffffff",
+"display": "standalone",
+"orientation": "any",
+"start_url": "https://isslive.vercel.app/?launchedfrom=homescreen",
+"scope": "https://isslive.vercel.app",
+"id": "https://isslive.vercel.app/TDca35V9XYQoRejDA3H2",
+"prefer_related_applications": false,
+"related_applications": [],
+"icons": [
+{
+"src": "https://pwa.xyz/v0/b/pwaa-8d87e.appspot.com/o/dakATPBG5NaZcElZVD60%2FZWrKnFUardLUovX.png?alt=media&token=8129992c-b2b3-4ac6-8f1a-0aa03dc73fb6",
+"sizes": "512x512",
+"type": "image/png",
+"purpose": "any"
+},
+{
+"src": "https://pwa.xyz/v0/b/pwaa-8d87e.appspot.com/o/dakATPBG5NaZcElZVD60%2FTeTFHvETDSlVWCQ.png?alt=media&token=a6f4091b-b480-4bdb-9c04-afe58160cfa6",
+"sizes": "512x512",
+"type": "image/png",
+"purpose": "maskable"
+}
+],
+"protocol_handlers": [
+{
+"protocol": "web+pwa",
+"url": "https://isslive.vercel.app/?launchedfrom=homescreen&pwaprotocolredirect=%s"
+},
+{
+"protocol": "web+isstracker",
+"url": "https://isslive.vercel.app/?launchedfrom=homescreen&pwaprotocolredirect=%s"
+}
+]
+}
