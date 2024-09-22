@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en" mode="ios">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ISS Tracker</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/icon.png">
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://isslive.vercel.app" />
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="ISS Tracker" />
+  <meta name="description" content="Real-time tracker for the International Space Station (ISS). Get updates on its location, crew, and related space news." />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://isslive.vercel.app" />
+  <meta property="og:title" content="ISS Tracker" />
+  <meta property="og:description" content="Real-time tracker for the International Space Station (ISS). Get updates on its location, crew, and related space news." />
+  <meta property="og:image" content="/assets/meta.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://isslive.vercel.app" />
+  <meta property="twitter:title" content="ISS Tracker" />
+  <meta property="twitter:description" content="Real-time tracker for the International Space Station (ISS). Get updates on its location, crew, and related space news." />
+  <meta property="twitter:image" content="/assets/meta.png" />
+
+  <!-- Ionic Framework -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css" />
+
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+<body>
+  <ion-app>
+    <ion-header translucent="true">
+      <ion-toolbar>
+        <ion-title>ISS Tracker</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content fullscreen="true">
+      <ion-refresher slot="fixed" id="refresher">
+        <ion-refresher-content></ion-refresher-content>
+      </ion-refresher>
+
+      <!-- ISS Position Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Real-time Location</ion-card-subtitle>
+          <ion-card-title>ISS Position</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div id="map-container">
+            <img id="map-image" src="https://cdn.britannica.com/37/245037-004-AFE9084C/world-map-continents-oceans.jpg" alt="World Map">
+            <img id="iss-marker" src="https://cdn-icons-png.flaticon.com/128/10290/10290311.png" alt="ISS Marker">
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- ISS Information Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Real-time Data</ion-card-subtitle>
+          <ion-card-title>ISS Information</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-icon name="location-outline" slot="start"></ion-icon>
+              <ion-label>Latitude</ion-label>
+              <ion-note slot="end" id="iss-latitude"></ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="navigate-outline" slot="start"></ion-icon>
+              <ion-label>Longitude</ion-label>
+              <ion-note slot="end" id="iss-longitude"></ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="airplane-outline" slot="start"></ion-icon>
+              <ion-label>Altitude</ion-label>
+              <ion-note slot="end" id="iss-altitude"></ion-note>
+            </ion-item>
+            <ion-item>
+              <ion-icon name="speedometer-outline" slot="start"></ion-icon>
+              <ion-label>Velocity</ion-label>
+              <ion-note slot="end" id="iss-velocity"></ion-note>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Day/Night Status Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Current Status</ion-card-subtitle>
+          <ion-card-title>Day or Night</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-icon name="sunny-outline" slot="start" id="day-night-icon"></ion-icon>
+            <ion-label id="day-night-status"></ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Sunrise/Sunset Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Upcoming Events</ion-card-subtitle>
+          <ion-card-title>Sunrise and Sunset</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-icon name="sunny-outline" slot="start"></ion-icon>
+            <ion-label>Next Sunrise</ion-label>
+            <ion-note slot="end" id="next-sunrise"></ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="moon-outline" slot="start"></ion-icon>
+            <ion-label>Next Sunset</ion-label>
+            <ion-note slot="end" id="next-sunset"></ion-note>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- ISS Crew Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Current Crew</ion-card-subtitle>
+          <ion-card-title>ISS Astronauts</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list id="iss-crew">
+            <!-- ISS crew members will be inserted here -->
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Live Stream Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Live Stream</ion-card-subtitle>
+          <ion-card-title>Space View</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="video-container">
+            <iframe id="liveStream" src="https://www.youtube.com/embed/xRPjKQtRXR8?si=LCUC6rUFjkqhloSi?autoplay=1" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <ion-select id="streamSelect" interface="action-sheet" placeholder="Select Stream">
+            <ion-select-option value="https://www.youtube.com/embed/O9mYwRlucZY?autoplay=1">Server - 1</ion-select-option>
+            <ion-select-option value="https://www.youtube.com/embed/DfEr5XCFNWM?autoplay=1">Server - 2</ion-select-option>
+            <ion-select-option value="https://www.youtube.com/embed/79iCnB7Gt5o?autoplay=1">Server - 3</ion-select-option>
+            <ion-select-option value="https://www.youtube.com/embed/xRPjKQtRXR8?autoplay=1">Server - 4</ion-select-option>
+          </ion-select>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Discussion Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Get Connected</ion-card-subtitle>
+          <ion-card-title>Discussion</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div id="utterances-container">
+            <script src="https://utteranc.es/client.js" repo="iambhvsh/iss-live" issue-term="pathname" label="discussion" crossorigin="anonymous" async></script>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Space News Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Latest Updates</ion-card-subtitle>
+          <ion-card-title>Space News</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list id="space-news">
+            <!-- Space news items will be inserted here -->
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+
+      <!-- Credits Card -->
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>App Information</ion-card-subtitle>
+          <ion-card-title>Credits & Technologies</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <img src="https://www.icegif.com/wp-content/uploads/2024/01/icegif-254.gif" alt="iambhvsh" class="avatar">
+            <ion-label>
+              <h2>Bhavesh Patil</h2>
+              <p>iambhvsh</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Technologies Used:</h3>
+              <p>HTML5, CSS3, JavaScript, Ionic Framework</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>APIs Used:</h3>
+              <p>Where The ISS At?, NASA APOD, Open Notify</p>
+            </ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <h3>Version:</h3>
+              <p>1.0</p>
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ion-content>
+  </ion-app>
+
+  <script src="/js/index.js"></script>
+
+</body>
+
+</html>
